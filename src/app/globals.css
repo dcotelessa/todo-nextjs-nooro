@@ -2,20 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer components {
+  .action-btn.add-task, .action-btn.save-task {
+    @apply p-4 flex items-center justify-center;
   }
+
+  .action-btn.add-task span, .action-btn.save-task span {
+    @apply relative inline-flex items-center;
+  }
+
+  .action-btn.add-task span::after, .action-btn.save-task span::after {
+    @apply relative ml-2 w-4 h-4 flex items-center justify-center text-sm leading-none pb-[0.1rem];
+  }
+
+  .action-btn.add-task span::after {
+    @apply content-['+'] border-2 border-current rounded-full;
+  }
+
+  .action-btn.save-task span::after {
+    @apply content-['✔'];
+  }
+}
+:root {
+  --background: #1A1A1A;
+  --foreground: #808080;
+  --headerbackground: #0D0D0D;
+  --header1: #4EA8DE;
+  --header2: #5E60CE;
+  --button: #1E6F9F;
+  --highlight: #F2F2F2;
+  --inputbkg: #262626;
+  --inputborder: #333333;
+  --placeholder: #F2F2F266;
+  --counter: #333333;
+  --spacer: #333333;
+  --text:#D9D9D9;
+  --font-sans: var(--font-inter);
+  --task-red: #F75A68;
+  --task-orange: #F1A33C;
+  --task-yellow: #F4E063;
+  --task-green: #4CAF50;
+  --task-blue: #2196F3;
+  --task-indigo: #3F51B5;
+  --task-purple: #9C27B0;
+  --task-pink: #E91E63;
+  --task-brown: #8D6E63;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter);
+}
+
+/* Button */
+.action-btn.add-task,.action-btn.save-task {
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.action-btn.add-task span,.action-btn.save-task span {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.action-btn.add-task span::after,.action-btn.save-task span::after {
+  position: relative;
+  margin-left: 0.5rem;
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  line-height: 0;
+  padding-bottom: 0.1rem;
+}
+
+.action-btn.add-task span::after {
+  content: '+';
+  border: 2px solid currentColor;
+  border-radius: 50%;
+}
+
+.action-btn.save-task span::after {
+  content: '✔';
 }
