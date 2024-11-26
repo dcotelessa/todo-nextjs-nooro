@@ -6,14 +6,15 @@ import { useRouter } from "next/navigation";
 import { addTask } from "../services/taskServices";
 import HeaderLogo from "../components/HeaderLogo";
 import ActionButton from "../components/ActionButton";
-import ColorSelector from "../components/ColorSelector";
+import Form from "../components/Form";
+import FormTitle from "../components/FormTitle";
+import FormColorSelector from "../components/FormColorSelector";
 
 const CreateTaskPage = () => {
   const [title, setTitle] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [isFormComplete, setIsFormComplete] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
@@ -48,10 +49,10 @@ const CreateTaskPage = () => {
 
   const handleButtonClick = () => {
     if (isFormComplete && !isSubmitting) {
-          const form = document.querySelector('form');
-          form?.requestSubmit();
+      const form = document.querySelector("form");
+      form?.requestSubmit();
     }
-};
+  };
 
   return (
     <div>
@@ -67,56 +68,37 @@ const CreateTaskPage = () => {
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
-            <button
-              type="button"
-              onClick={() => router.back()}
-              className="mb-6"
-            >
-              <Image
-                src="/arrow-left.svg"
-                alt="Back to Home"
-                width={24}
-                height={24}
-                priority
-              />
-            </button>
-            <div className="mb-3">
-              <label
-                htmlFor="title"
-                className="block text-sm font-medium text-header1 mb-2"
-              >
-                Title
-              </label>
-              <input
-                id="title"
-                type="text"
-                value={title}
-                className="w-full p-4 bg-inputbkg rounded-lg border border-inputborder 
-                          text-highlight placeholder:text-placeholder focus:outline-none focus:ring-2 focus:ring-header1"
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Ex. Brush your teeth"
-                required
-              />
-            </div>
-            <div className="flex mb-10">
-              <ColorSelector
-                selectedColor={selectedColor}
-                onColorSelect={handleColorSelect}
-              />
-            </div>
-
-            <div className="flex gap-4">
-              <ActionButton
+          <Form
+            handleSubmit={handleSubmit}
+            formElements={[
+              <button
                 type="button"
-                onClick={handleButtonClick}
-                disabled={!isFormComplete || isSubmitting}
-                classes="action-btn add-task"
+                onClick={() => router.back()}
+                className="mb-6"
               >
-                {isSubmitting ? "Creating..." : "Create Task"}
-              </ActionButton>
-            </div>
-          </form>
+                <Image
+                  src="/arrow-left.svg"
+                  alt="Back to Home"
+                  width={24}
+                  height={24}
+                  priority
+                />
+              </button>,
+              FormTitle({ title, handleTitleChange: setTitle }),
+              FormColorSelector({ selectedColor, handleColorSelect }),
+
+              <div className="flex gap-4">
+                <ActionButton
+                  type="button"
+                  onClick={handleButtonClick}
+                  disabled={!isFormComplete || isSubmitting}
+                  classes="action-btn add-task"
+                >
+                  {isSubmitting ? "Creating..." : "Create Task"}
+                </ActionButton>
+              </div>,
+            ]}
+          />
         </div>
       </main>
     </div>

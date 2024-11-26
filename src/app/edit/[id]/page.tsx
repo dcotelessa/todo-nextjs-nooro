@@ -6,7 +6,9 @@ import { useParams, useRouter } from "next/navigation";
 import { getAllTasks, Status, updateTask } from "../../services/taskServices";
 import HeaderLogo from "../../components/HeaderLogo";
 import ActionButton from "../../components/ActionButton";
-import ColorSelector from "../../components/ColorSelector";
+import Form from "../../components/Form";
+import FormTitle from "../../components/FormTitle";
+import FormColorSelector from "../../components/FormColorSelector";
 
 const EditTaskPage = () => {
   const [title, setTitle] = useState("");
@@ -89,56 +91,36 @@ const EditTaskPage = () => {
           {!loaded && <div>Loading...</div>}
 
           {loaded && (
-            <form onSubmit={handleSubmit}>
-              <button
-                type="button"
-                onClick={() => router.back()}
-                className="mb-6"
-              >
-                <Image
-                  src="/arrow-left.svg"
-                  alt="Back to Home"
-                  width={24}
-                  height={24}
-                  priority
-                />
-              </button>
-              <div className="mb-3">
-                <label
-                  htmlFor="title"
-                  className="block text-sm font-medium text-header1 mb-2"
-                >
-                  Title
-                </label>
-                <input
-                  id="title"
-                  type="text"
-                  value={title}
-                  className="w-full p-4 bg-inputbkg rounded-lg border border-inputborder 
-                          text-highlight placeholder:text-placeholder focus:outline-none focus:ring-2 focus:ring-header1"
-                  onChange={(e) => setTitle(e.target.value)}
-                  placeholder="Ex. Brush your teeth"
-                  required
-                />
-              </div>
-              <div className="flex mb-10">
-                <ColorSelector
-                  selectedColor={selectedColor}
-                  onColorSelect={handleColorSelect}
-                />
-              </div>
-
-              <div className="flex gap-4">
-                <ActionButton
+            <Form
+              handleSubmit={handleSubmit}
+              formElements={[
+                <button
                   type="button"
-                  onClick={handleButtonClick}
-                  disabled={!isFormValid() || isSubmitting}
-                  classes="action-btn save-task"
+                  onClick={() => router.back()}
+                  className="mb-6"
                 >
-                  {isSubmitting ? "Saving..." : "Save"}
-                </ActionButton>
-              </div>
-            </form>
+                  <Image
+                    src="/arrow-left.svg"
+                    alt="Back to Home"
+                    width={24}
+                    height={24}
+                    priority
+                  />
+                </button>,
+                FormTitle({ title, handleTitleChange: setTitle }),
+                FormColorSelector({ selectedColor, handleColorSelect }),
+                <div className="flex gap-4">
+                  <ActionButton
+                    type="button"
+                    onClick={handleButtonClick}
+                    disabled={!isFormValid() || isSubmitting}
+                    classes="action-btn save-task"
+                  >
+                    {isSubmitting ? "Saving..." : "Save"}
+                  </ActionButton>
+                </div>,
+              ]}
+            />
           )}
         </div>
       </main>
